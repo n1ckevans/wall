@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Wall</title>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body class="bg-dark text-white">
+    <div class="container">
+   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+  
+        <div class="card-header bg-primary row">
+          <h3 class="d-inline-block col-sm">CodingDojo Wall</h3>
+          <p class="mr-5 mt-2">Welcome {{ user.first_name }}</p>
+          <a href="/wall" class="btn btn-info mr-2">
+            <span class="glyphicon glyphicon-log-out ml-2">View Wall</span>
+          </a>
+          <a href="/logout" class="btn btn-info ">
+            <span class="glyphicon glyphicon-log-out">Log Out</span>
+          </a>
+        </div>
+
+
+
+    
+    <div class="card-body bg-dark text-center my-5 py-2 text-white d-block">
+        <span class="logo_title float-left">Post a new message</span>
+        <form action="/add_message_home" method="post">
+          {% csrf_token %}
+          <textarea type="text" name="message" class="form-control"></textarea>
+          <input type="submit" name="btn" value="Post" class="btn btn-outline-primary float-left login_btn my-2">
+        </form>
+    </div>
+
+    {% for message in messages reversed %}
+    <div class="card-body bg-dark text-left py-2 text-white d-block">
+        <span class="logo_title my-2 ml-2">{{message.user.first_name}} {{message.user.last_name}} - {{message.created_at}} </span>
+        <p type="text" class="form-control my-2 ml=2">{{message.message}}</p>
+        {% if message.user.id == user.id and message.can_delete %}
+       <a href="/delete_home/{{message.id}}">Delete</a>
+       {%endif%}
+    </div>
+    {% endfor %}
+
+</div>
+</body>
+</html>
